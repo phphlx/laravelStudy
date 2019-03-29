@@ -11,6 +11,9 @@
 |
 */
 
-Route::get('/', 'StaticPagesController@home');
-Route::get('/help', 'StaticPagesController@help');
-Route::get('/about', 'StaticPagesController@about');
+Route::get('/', 'StaticPagesController@home')->name('home');
+Route::get('/help', 'StaticPagesController@help')->name('help');
+Route::get('/about', 'StaticPagesController@about')->name('about');
+
+// get('signup') 和 get('/signup') 没区别, laravel 兼容两种写法
+Route::get('signup', 'UsersController@create')->name('signup');
