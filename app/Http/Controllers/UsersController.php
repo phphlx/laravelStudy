@@ -82,13 +82,11 @@ class UsersController extends Controller
     {
         $view = 'emails.confirm';
         $data = compact('user');
-        $from = 'test@laravel.com';
-        $name = 'test';
         $to = $user->email;
         $subject = '感谢注册 sample, 请确认你的邮箱';
 
-        \Mail::send($view, $data, function ($message) use ($from, $name, $to, $subject) {
-            $message->from($from, $name)->to($to)->subject($subject);
+        \Mail::send($view, $data, function ($message) use ($to, $subject) {
+            $message->to($to)->subject($subject);
         });
     }
 
