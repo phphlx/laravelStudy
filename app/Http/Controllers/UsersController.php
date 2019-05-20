@@ -10,7 +10,7 @@ class UsersController extends Controller
     public function __construct()
     {
         $this->middleware('auth', [
-            'except' => ['show', 'create', 'store', 'index']
+            'except' => ['show', 'create', 'store', 'index', 'confirmEmail']
         ]);
 
         $this->middleware('guest', [
@@ -73,11 +73,36 @@ class UsersController extends Controller
             'password' => bcrypt($request->password),
         ]);
 
+        $this->sendEmailConfirmation($user);
+        session()->flash('success', '验证邮件已经发送到您的邮箱, 请注意查收');
+        return redirect('/');
+    }
+
+    public function sendEmailConfirmation($user)
+    {
+        $view = 'emails.confirm';
+        $data = compact('user');
+        $from = 'test@laravel.com';
+        $name = 'test';
+        $to = $user->email;
+        $subject = '感谢注册 sample, 请确认你的邮箱';
+
+        \Mail::send($view, $data, function ($message) use ($from, $name, $to, $subject) {
+            $message->from($from, $name)->to($to)->subject($subject);
+        });
+    }
+
+    public function confirmEmail($token)
+    {
+        $user = User::where('activation_token', $token)->firstOrFail();
+
+        $user->activated = true;
+        $user->activation_token = null;
+        $user->save();
+
         \Auth::login($user);
-
-        session()->flash('success', '欢迎, 开启新旅程');
-
-        return redirect()->route('users.show', $user->id);
+        session()->flash('success', '恭喜, 激活成功');
+        return redirect()->route('users.show', \Auth::id());
     }
 
     public function destroy(User $user)
