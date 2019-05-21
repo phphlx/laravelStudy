@@ -1,9 +1,9 @@
-<header class="navbar navbar-fixed-top navbar-inverse">
+<header class="navbar fixed-top navbar-inverse">
     <div class="container">
         <div class="col-md-offset-1 col-md-10">
             <a href="/" id="logo">Sample App</a>
             <nav>
-                <ul class="nav navbar-nav navbar-right">
+                <ul class="nav navbar-nav pull-right">
                     @if (Auth::check())
                         <li><a href="{{ route('users.index') }}">用户列表</a></li>
                         <li class="dropdown">
