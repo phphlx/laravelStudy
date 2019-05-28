@@ -113,4 +113,19 @@ class UsersController extends Controller
         session()->flash('success', '删除用户成功');
         return back();
     }
+
+    public function followings(User $user)
+    {
+        $users = $user->followings()->paginate(10);
+
+        return view('users.show_follow', ['users' => $users, 'title' => '关注的人']);
+    }
+
+    public function followers(User $user)
+    {
+        $users = $user->followers()->paginate(10);
+        $title = '粉丝';
+
+        return view('users.show_follow', compact('users', 'title'));
+    }
 }
