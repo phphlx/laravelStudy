@@ -19,6 +19,7 @@ class UsersSeeder extends Seeder
         $user->email = 'phphlx@163.com';
         $user->name  = 'gaga';
         $user->is_admin = true;
+        $user->activated = true;
         $user->save();
     }
 }
