@@ -11,6 +11,17 @@
                     </section>
                 </div>
             </div>
+
+            <div class="col-md-8">
+                @if ($statuses->isNotEmpty())
+                    <ol class="statuses">
+                        @foreach($statuses as $status)
+                            @include('statuses._status')
+                        @endforeach
+                    </ol>
+                    {!! $statuses !!}
+                @endif
+            </div>
         </div>
     </div>
 @endsection
