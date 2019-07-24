@@ -9,10 +9,16 @@
                     <section class="user_info">
                         @include('shared._user_info', ['user' => $user])
                     </section>
+                    <section class="stats">
+                        @include('shared._stats', ['user' => \Illuminate\Support\Facades\Auth::user()])
+                    </section>
                 </div>
             </div>
 
             <div class="col-md-8">
+                @if (\Illuminate\Support\Facades\Auth::check())
+                    @include('users._follow_form')
+                @endif
                 @if ($statuses->isNotEmpty())
                     <ol class="statuses">
                         @foreach($statuses as $status)

@@ -16,6 +16,9 @@
                 <section class="user_info">
                     @include('shared._user_info', ['user' => \Illuminate\Support\Facades\Auth::user()])
                 </section>
+                <section class="stats">
+                    @include('shared._stats', ['user' => \Illuminate\Support\Facades\Auth::user()])
+                </section>
             </aside>
         </div>
     @else
