@@ -7,6 +7,11 @@
       <section class="user_info">
         @include('shared._user_info', ['user' => $user])
       </section>
+
+      @if (Auth::check())
+        @include('users._follow_form')
+      @endif
+
       <section class="mt-2 stats">
         @include('shared._stats', ['user' => $user])
       </section>
