@@ -59,4 +59,9 @@ class User extends Authenticatable // 授权功能引用
     {
         return $this->hasMany(Status::class);
     }
+
+    public function feed()
+    {
+        return $this->statuses()->orderBy('created_at', 'desc');
+    }
 }
