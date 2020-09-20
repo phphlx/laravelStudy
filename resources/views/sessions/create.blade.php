@@ -24,6 +24,13 @@
             <input type="password" name="password" class="form-control">
           </div>
 
+          <div class="form-group">
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input" name="remember" id="exampleCheck1">
+              <label for="exampleCheck1" class="form-check-label">remember</label>
+            </div>
+          </div>
+
           <button class="btn btn-primary">login</button>
         </form>
 
