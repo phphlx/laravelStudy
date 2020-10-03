@@ -3,4 +3,12 @@
   <a href="{{ route('users.show', $user) }}">
     {{ $user->name }}
   </a>
+  @can('delete', $user)
+    <form action="{{ route('users.destroy', $user) }}" method="POST" class="float-right">
+      {{ csrf_field() }}
+      {{ method_field('DELETE') }}
+
+      <button class="btn btn-sm btn-danger delete-btn">delete</button>
+    </form>
+  @endcan
 </div>
