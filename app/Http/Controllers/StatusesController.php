@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Status;
 use Illuminate\Http\Request;
 
 class StatusesController extends Controller
@@ -22,5 +23,13 @@ class StatusesController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'published');
+    }
+
+    public function destroy(Status $status)
+    {
+        $this->authorize('destroy', $status);
+
+        $status->delete();
+        return redirect()->back()->with('success', 'deleted');
     }
 }
