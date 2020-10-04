@@ -10,7 +10,7 @@ class UsersController extends Controller
     public function __construct()
     {
         $this->middleware('auth', [
-            'except' => ['show', 'create', 'store', 'index']
+            'except' => ['show', 'create', 'store', 'index', 'confirmEmail']
         ]);
     }
 
@@ -45,9 +45,22 @@ class UsersController extends Controller
             'password' => bcrypt($request->password),
         ]);
 
-        \Auth::logout($user);
-        session()->flash('success', 'welcome');
-        return redirect()->route('users.show', $user);
+        $this->sendEmailConfirmation($user);
+        return redirect('/')->with('success', '验证邮件已发送至邮箱, 请查收');
+    }
+
+    private function sendEmailConfirmation ($user) {
+        $view = 'emails.confirm';
+        $data = compact('user');
+        $from = 'phphlx@163.com';
+        $name = 'phphlx';
+        $to = $user->email;
+        $subject = '感谢注册, 请确认你的邮箱';
+
+        \Mail::send($view, $data, function ($message) use ($from, $name, $subject, $to
+        ) {
+            $message->from($from, $name)->subject($subject)->to($to);
+        });
     }
 
     public function edit(User $user)
@@ -83,5 +96,17 @@ class UsersController extends Controller
         $user->delete();
 
         return redirect()->back()->with('success', 'delete success');
+    }
+
+    public function confirmEmail($token)
+    {
+        $user = User::where('activation_token', $token)->firstOrFail();
+
+        $user->activated = true;
+        $user->activation_token = null;
+        $user->save();
+
+        \Auth::login($user);
+        return redirect()->route('users.show', $user)->with('success', 'activated');
     }
 }
