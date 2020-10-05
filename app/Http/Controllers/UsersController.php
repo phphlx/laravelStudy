@@ -111,4 +111,20 @@ class UsersController extends Controller
         \Auth::login($user);
         return redirect()->route('users.show', $user)->with('success', 'activated');
     }
+
+    public function followings(User $user)
+    {
+        $users = $user->followings()->paginate();
+        $title = 'following';
+
+        return view('users.show_follow', compact('users', 'title'));
+    }
+
+    public function followers(User $user)
+    {
+        $users = $user->followers()->paginate();
+        $title = 'follower';
+
+        return view('users.show_follow', compact('users', 'title'));
+    }
 }
